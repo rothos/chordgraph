@@ -12,11 +12,15 @@ with open(dbfile, "r") as f:
 
 
 ##### Build the graph
+# First, let's make an unweighted graph that is ignorant of music theory
 
+graph = {}
 
-
-
-
+for song in data["songs"]:
+    chords = song["chords"]
+    for i,chord in enumerate(chords[:-1]):
+        nextchord = chords[i+1]
+        graph.setdefault(chord, set()).add(nextchord)
 
 
 ##### Create an interactive data display
@@ -30,5 +34,5 @@ with open(dbfile, "r") as f:
 ##### Write it to an HTML file
 
 with open("index.html", "w") as f:
-    f.write(str(data))
+    f.write(str(graph))
     f.close()
